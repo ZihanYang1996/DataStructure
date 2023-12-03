@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 public class PriorityQueue<T> where T : IComparable<T>
 {
@@ -77,6 +78,40 @@ public class PriorityQueue<T> where T : IComparable<T>
         return RemoveAt(0);
     }
 
+    // Test if an element is in heap, O(1)
+    public bool Contains(T elem)
+    {
+        if (elem == null) return false;
+        return lookup.ContainsKey(elem);
+
+        // Linear scan to check containment, O(n)
+        // for (int i = 0; i < heapSize; i++)
+        // {
+        //     if (heap[i].Equals(elem)) return true;
+        // }
+        // return false;
+    }
+
+    // Adds an element to the priority queue, the
+    // element must not be null, O(log(n))
+    public void Add(T elem)
+    {
+        if (elem == null) throw new ArgumentNullException();
+
+        if (heapSize < heapCapacity)
+        {
+            heap[heapSize] = elem;
+        }
+        else
+        {
+            heap.Add(elem);
+            heapCapacity++;
+        }
+        LookupAdd(elem, heapSize);
+        Swim(heapSize++);
+
+    }
+
     private void LookupAdd(T elem, int index)
     {
         SortedSet<int> set;
@@ -92,6 +127,108 @@ public class PriorityQueue<T> where T : IComparable<T>
         }
 
     }
+
+    // Removes a particular element in the heap, O(log(n))
+    public bool Remove(T elem)
+    {
+        if (elem == null) return false;
+
+        // Logarithmic removal with lookup, O(log(n))
+        int index = LookupGet(elem);
+        if (index != -1) RemoveAt(index);
+        return index != -1;
+    }
+
+    // Removes a node at particular index, O(log(n))
+    public T RemoveAt(int i)
+    {
+        if (IsEmpty()) return default;
+
+        heapSize--;
+        T removed_data = heap[i];
+        Swap(i, heapSize);
+
+        // Obliterate the value
+        heap[heapSize] = default;
+        LookupRemove(removed_data, heapSize);
+
+        // Remove last element
+        if (i == heapSize) return removed_data;
+
+        T elem = heap[i];
+
+        // Try sinking element
+        Sink(i);
+
+        // If sinking did not work try swimming
+        if (heap[i].Equals(elem)) Swim(i);
+
+        return removed_data;
+    }
+
+    // Makesure the heap invariant is maintained
+    // Call this method with k=-0 to start at the root
+    public bool IsMinHeap(int k)
+    {
+        // If we are outside the bounds of the heap return true
+        if (k >= heapSize) return true;
+
+        int left = (2 * k) + 1;
+        int right = (2 * k) + 2;
+
+        if (left < heapSize && Less(k, left) != k) return false;
+        if (right < heapSize && Less(k, right) != k) return false;
+
+        return IsMinHeap(left) && IsMinHeap(right);
+    }
+
+    // Removes the index at a given value, O(log(n))
+    private void LookupRemove(T elem, int index)
+    {
+        SortedSet<int> set;
+        if (lookup.TryGetValue(elem, out set))
+        {
+            set.Remove(index);
+        }
+        if (set.Count == 0) lookup.Remove(elem);
+    }
+
+
+    // Extracts an index position for the given value
+    // NOTE: If a value exists multiple times in the heap the highest
+    // index is returned (this has arbitrarily been chosen)
+    private int LookupGet(T elem)
+    {
+        SortedSet<int> set;
+        if (lookup.TryGetValue(elem, out set))
+        {
+            return set.Max;
+        }
+        return -1;
+    }
+
+    // Perform bottom up node swim, O(log(n))
+    private void Swim(int k)
+    {
+        // Grab the index of the next parent node WRT to k
+        int parent = (k - 1) / 2;
+
+        // Keep swimming while we have not reached the
+        // root and while we're less than our parent.
+
+        while (k > 0 && Less(k, parent) == k)
+        {
+            // Exchange k with the parent
+            Swap(parent, k);
+            k = parent;
+
+            // Grab the index of the next parent node WRT to k
+            parent = (k - 1) / 2;
+        }
+
+
+    }
+
     // Top down node sink, O(log(n))
     private void Sink(int k)
     {
@@ -138,11 +275,5 @@ public class PriorityQueue<T> where T : IComparable<T>
         T node1 = heap[i];
         T node2 = heap[j];
         return node1.CompareTo(node2) <= 0 ? i : j;
-    }
-
-    // Removes a particular element in the heap, O(log(n))
-    public T RemoveAt(int i)
-    {
-        throw new NotImplementedException();  // To be implemented tomorrow
     }
 }
