@@ -277,3 +277,70 @@ public class PriorityQueue<T> where T : IComparable<T>
         return node1.CompareTo(node2) <= 0 ? i : j;
     }
 }
+
+public class Program
+{
+    public static void Main()
+    {
+        PriorityQueue<int> pq = new PriorityQueue<int>();
+
+        // Test Enqueue
+        pq.Add(3);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Add(2);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Add(5);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Add(1);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Add(4);
+        Console.WriteLine("Peeking: " + pq.Peek());
+
+        Console.WriteLine("Is Min Heap ? " + pq.IsMinHeap(0));
+
+        // Test Dequeue
+        pq.Remove(1);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Remove(2);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Remove(3);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        // Doesn't sees right after remove 3, peek should be 4 but it's 5
+        Console.WriteLine("Is Min Heap ? " + pq.IsMinHeap(0));  // This is not a min heap!!!
+        pq.Remove(4);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Remove(5);
+        Console.WriteLine("Peeking: " + pq.Peek());
+
+        Console.WriteLine("Is Min Heap ? " + pq.IsMinHeap(0));
+
+        Console.WriteLine(pq.Remove(122)); // Should return false
+
+        // Test with duplicate values
+        pq.Add(3);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Add(2);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Add(3);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Add(1);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Add(2);
+        Console.WriteLine("Peeking: " + pq.Peek());
+
+        Console.WriteLine("Is Min Heap ? " + pq.IsMinHeap(0));
+
+        pq.Remove(1);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Remove(2);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Remove(2);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Remove(3);
+        Console.WriteLine("Peeking: " + pq.Peek());
+        pq.Remove(3);
+        Console.WriteLine("Peeking: " + pq.Peek());
+
+        Console.WriteLine("Is Min Heap ? " + pq.IsMinHeap(0));
+    }
+}
