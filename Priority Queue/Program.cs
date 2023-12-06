@@ -238,9 +238,12 @@ public class PriorityQueue<T> where T : IComparable<T>
         {
             int left = (2 * k) + 1;  // Left  node
             int right = (2 * k) + 2;  // Right node+
-            if (right >= heapSize) break;  // If outside of bounds of heap, stop
-            int smallest = Less(left, right);  // Get the smallest of the two nodes
-            if (Less(k, smallest) == k) break;  // Stop if heap invariant is satisfied
+            int smallest = left;  // Assume left is the smallest node of the two children
+            // Find which is smaller left or right
+            // If right is smaller set smallest to be right
+            if (right < heapSize && Less(right, left) == right) smallest = right;
+            // If outside of bounds of heap, or stop if heap invariant is satisfied
+            if (left >= heapSize || Less(k, smallest) == k) break;  
             Swap(smallest, k);  // Swap with the smallest of the two nodes
             k = smallest;
         }
@@ -305,7 +308,7 @@ public class Program
         Console.WriteLine("Peeking: " + pq.Peek());
         pq.Remove(3);
         Console.WriteLine("Peeking: " + pq.Peek());
-        // Doesn't sees right after remove 3, peek should be 4 but it's 5
+        // Doesn't seems right after remove 3, peek should be 4 but it's 5
         Console.WriteLine("Is Min Heap ? " + pq.IsMinHeap(0));  // This is not a min heap!!!
         pq.Remove(4);
         Console.WriteLine("Peeking: " + pq.Peek());

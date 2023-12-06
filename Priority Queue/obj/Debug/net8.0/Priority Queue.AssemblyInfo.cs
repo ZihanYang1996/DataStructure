@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Priority Queue")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+79c9667ce9b1533c4ce91a57d870270cc2e90eeb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6faea8cb1356a3fd070f70815098181024ee2940")]
 [assembly: System.Reflection.AssemblyProductAttribute("Priority Queue")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Priority Queue")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
