@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "kQDUZ6Ec+f98Z/HBn112AsBUd7nxuOrFahffxhAKeB55hePApgyqQSBQaQZJB+Qbdvy5gtWQIVi6IHVD2a6jBA==",
+  "success": true,
+  "projectFilePath": "D:\\Learn\\Data Structure\\Binary Search Tree\\Binary Search Tree.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\zihan\\.nuget\\packages\\nunit\\4.0.1\\nunit.4.0.1.nupkg.sha512",
+    "C:\\Users\\zihan\\.nuget\\packages\\nunit3testadapter\\4.5.0\\nunit3testadapter.4.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
